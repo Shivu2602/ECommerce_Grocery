@@ -4,7 +4,7 @@ const mysql = require("mysql");
 const app = express();
 const cors = require("cors");
 const stripe = require("stripe")(
-  "sk_test_51O6HHDSDcItHFrYPYJjZDSffKfmBwN8g7EXwOCcFwqfQ147duW7cOO6XV6j2n0mcZL9x9c5BHpSaMU5rwsUtpRoV00YjPgD1qm"
+  "sk_test_51Q9p3NP1VFxK2tM79JYcHHsZoTMFTrESUaS0cIQpD43oCi57BMz2oISLZpw8MYFSQA26HF5uVH5KfSBcp5eJ7EjA0086j8a5cr"
 );
 
 app.use(express.json());
@@ -27,10 +27,15 @@ app.post("/api/create-checkout-session", async (req, res) => {
     quantity: product.qnty,
   }));
 
+  // checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
+    invoice_creation: {
+      enabled: true,
+    },
+    // receipt_email: "https://billing.stripe.com/p/login/test_9AQ16267S8rvdCUfYY",
     success_url: "http://localhost:3000/sucess",
     // success_url:"/client/src/components/Home.js",
     cancel_url: "http://localhost:3000/cancel",
@@ -59,7 +64,7 @@ app.post("/signin", (req, res) => {
   const sql = `INSERT INTO login(name,email,mobile,password) VALUES ('${req.body.name[0]}', '${req.body.email[0]}', ${req.body.mobile[0]},'${req.body.password[0]}')`;
   db.query(sql, (err, data) => {
     if (err) {
-      console.log(err);
+      // console.log(err);
       return res.json("Error");
     }
     return res.json(data);
@@ -67,10 +72,10 @@ app.post("/signin", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);    // show id & psw in terminal.
   // const sql = "SELECT * FROM login WHERE email='?' AND password ='?'";
   const sql2 = `SELECT * FROM login WHERE email='${req.body.email[0]}' AND password ='${req.body.password[0]}'`;
-  console.log(sql2);
+  // console.log(sql2);
   db.query(sql2, (err, data) => {
     if (err) {
       return res.json("Error");

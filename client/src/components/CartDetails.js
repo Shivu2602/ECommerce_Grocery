@@ -10,7 +10,7 @@ import {
 } from "../redux/features/cartSlice";
 import toast from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const CartDetails = () => {
   const { carts } = useSelector((state) => state.allCart);
@@ -72,12 +72,11 @@ const CartDetails = () => {
   // payment integration
   const makePayment = async () => {
     const stripe = await loadStripe(
-      "pk_test_51O6HHDSDcItHFrYPIacvWh7s8ucB0k6boqhdO40f347KvHlTs0CCrz7H3eOviVUShh9469qvfR6p8wMtbm9BkWTP00TdFJxE28"
+      "pk_test_51Q9p3NP1VFxK2tM7sMqkTGxTMvrNb4Qpvxp4euLOtQwvajwS9bomAftL8YGJyW3M9VjLnPoNbp6JujoxRr2eeU7n00I2gNUIXO"
     );
 
     const body = {
       products: carts,
-
     };
     const headers = {
       "Content-Type": "application/json",
@@ -102,17 +101,17 @@ const CartDetails = () => {
     }
   };
 
-   // token
-   const navigate=useNavigate();
-   useEffect(()=>{
-     if(!localStorage.getItem('isLogedIn')){
-       navigate('/login')
-     }
-   },[]);
+  // token
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("isLogedIn")) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <>
-    <Headers/>
+      <Headers />
       <div className="row justify-content-center m-0">
         <div className="col-md-8 mt-5 mb-5 cardsdetails">
           <div className="card">
